@@ -358,7 +358,7 @@ export class QuoteRequestor {
                             : undefined,
                     };
 
-                    const partialLogEntry = { url, quoteType, requestParams };
+                    const partialLogEntry = { url, quoteType, requestParams, isBlacklisted: false };
                     const timeBeforeAwait = Date.now();
                     const maxResponseTimeMs =
                         options.makerEndpointMaxResponseTimeMs === undefined
@@ -417,6 +417,8 @@ export class QuoteRequestor {
                             } for taker address ${options.takerAddress}`,
                         );
                     }
+                } else {
+                    this._infoLogger({ rfqMakerInteraction: { url, quoteType, isBlacklisted: true } });
                 }
             }),
         );
